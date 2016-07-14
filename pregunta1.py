@@ -27,12 +27,12 @@ train_df = pd.DataFrame.from_csv('train_data.csv',header=0,index_col=0)
 test_df = pd.DataFrame.from_csv('test_data.csv',header=0,index_col=0)
 
 #	Se imprime la dimension de cada dataframe, mostrando (num de filas, num columnas)
-#print train_df.shape
-#print test_df.shape
+print train_df.shape
+print test_df.shape
 
 #print train_df
 #print train_df.tail()
-#print train_df.describe()
+print train_df.describe()
 
 ######## Pregunta (b) ############################################################
 
@@ -73,9 +73,6 @@ for lab, col in zip(mclasses,mcolors):
 plt.xlabel('Principal Component 1')
 plt.ylabel('Principal Component 2')
 leg = plt.legend(loc='upper right', fancybox=True)
-
-#yhat_pca = sklearn_pca.predict(X_std_test)
-#print accuracy_score(ytest, yhat_pca)
 
 ######## Pregunta (d) ############################################################
 
@@ -183,28 +180,27 @@ qda_test = []
 knn_train = []
 knn_test = []
 
-lda_model = LDA()
-qda_model = QDA()
-knn_model = KNeighborsClassifier(n_neighbors=7)
 for i in range(1,11):
 	sklearn_pca = PCA(n_components=i)
 	Xred_pca = sklearn_pca.fit_transform(X_std)
 	Xred_pca_test = sklearn_pca.fit_transform(X_std_test)
 
+	lda_model = LDA()
 	lda_model.fit(Xred_pca,y)
-	qda_model.fit(Xred_pca,y)
-	knn_model.fit(Xred_pca,y)
-
 	yhat_train = lda_model.predict(Xred_pca)
 	lda_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = lda_model.predict(Xred_pca_test)
 	lda_test.append(zero_one_loss(ytest, yhat_test)) 
 
+	qda_model = QDA()
+	qda_model.fit(Xred_pca,y)
 	yhat_train = qda_model.predict(Xred_pca)
 	qda_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = qda_model.predict(Xred_pca_test)
 	qda_test.append(zero_one_loss(ytest, yhat_test)) 
 
+	knn_model = KNeighborsClassifier(n_neighbors=7)
+	knn_model.fit(Xred_pca,y)
 	yhat_train = knn_model.predict(Xred_pca)
 	knn_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = knn_model.predict(Xred_pca_test)
