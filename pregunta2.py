@@ -161,9 +161,9 @@ for tag, count in zip(vocab, dist):
 promedio=float(auxiliar)/float(n_datos)
 utilizadas_train =[]
 for tag, count in zip(vocab, dist):
-	if count>(promedio+25):
+	if count>(promedio+100):
 		utilizadas_train.append([tag,count])
-
+print utilizadas_train
 auxiliar_test = 0
 n_datos_test = 0
 maximo_test = 0
@@ -176,8 +176,9 @@ for tag, count in zip(vocab, dist_test):
 promedio_test=float(auxiliar_test)/float(n_datos_test)
 utilizadas_test =[]
 for tag, count in zip(vocab, dist_test):
-	if count>(promedio_test+25):
+	if count>(promedio_test+100):
 		utilizadas_test.append([tag,count])
+print utilizadas_test
 #Lematizer
 texts_train_lem = [word_extractor2(text) for text in train_df.Text]
 texts_test_lem = [word_extractor2(text) for text in test_df.Text]
@@ -200,9 +201,9 @@ for tag, count in zip(vocab, dist):
 promedio=float(auxiliar)/float(n_datos)
 utilizadas_train_lem =[]
 for tag, count in zip(vocab, dist):
-	if count>(promedio+25):
-		utilizadas_train.append([tag,count])
-
+	if count>(promedio+100):
+		utilizadas_train_lem.append([tag,count])
+print utilizadas_train
 auxiliar_test = 0
 n_datos_test = 0
 maximo_test = 0
@@ -215,8 +216,10 @@ for tag, count in zip(vocab, dist_test):
 promedio_test=float(auxiliar_test)/float(n_datos_test)
 utilizadas_test_lem =[]
 for tag, count in zip(vocab, dist_test):
-	if count>(promedio_test+25):
-		utilizadas_test.append([tag,count])
+	if count>(promedio_test+100):
+		utilizadas_test_lem.append([tag,count])
+
+print utilizadas_test
 
 
 
@@ -292,7 +295,7 @@ for text, sentiment in zip(test_df.Text[spl], test_pred[spl]):
 print "---------------------------------------------------------------------"
 print "Lematizer"
 model_lem=do_MULTINOMIAL(features_train_lem,labels_train,features_test_lem,labels_test)
-test_pred_lem = model.predict_proba(features_test_lem)
+test_pred_lem = model_lem.predict_proba(features_test_lem)
 spl = random.sample(xrange(len(test_pred_lem)), 15)
 for text, sentiment in zip(test_df.Text[spl], test_pred_lem[spl]):
 	print sentiment, text
@@ -355,7 +358,7 @@ for x in accuracy_dict_test:
 		label_train.append(aux[0]+aux[2])
 		data_train.append(accuracy_dict_train[aux[0]+"_train_"+aux[2]])
 		data_test.append(accuracy_dict_test[x])
-	else:
+	if aux[0]=='BernoulliNB' or aux[0]=='MULTINOMIAL' :
 		print "%s |     %f     |     %f"%(x, accuracy_dict_test[x],accuracy_dict_train[aux[0]+"_train"])
 		label_test.append(x)
 		label_train.append(aux[0])
@@ -369,4 +372,6 @@ plt.plot( ayuda, data_test)
 plt.plot( ayuda, data_train)
 plt.xticks(ayuda, label_train, rotation=90)
 plt.legend(['Train data', 'Test data'], loc='upper left')
+plt.gcf().subplots_adjust(bottom=0.25)
+
 plt.show()
