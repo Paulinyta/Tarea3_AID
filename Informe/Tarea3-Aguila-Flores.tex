@@ -130,7 +130,116 @@ Para la Figura \ref{pca}, se puede ver que la cantidad de dimensiones igual a 7 
 
 \section{Análisis de Opiniones sobre Películas}
 
-PIPE
+En esta sección se realiza análisis de sentimiento sobre películas de una Dataset publicado en Kaggle. El dataset es una colección de opiniones de películas etiquetadas con +1 y 0 si la opinión es positiva o negativa respectivamente. 
+Datos de Entrenamiento: 3554 registros.
+Datos de Test: 3554 registros.
+El dataset tiene 2 dimensiones.
+El conjunto de datos tiene 2 clases.
+De la data de entrenamiento 1784 registros tienen una opinión negativa y 1770 opinión positiva. En el caso de la data de test, 1803 son opiniones positivas y 1751 opiniones negativas. El dataset es tratado convirtiendo todo el texto a minúsculas, eliminando signos de puntuación y palabras sin significado como artículos, pronombres y proposiciones. Además existen dos técnicas que permiten convertir las palabras a su tronco léxico, la lematización y el stemming, técnicas similares, pero con diferentes resultados, a continuación se muestran ejemplos donde se usan ambas técnicas sobre ciertos textos, para poder entender la diferencia entre ambas.\\
+
+Stemming		/	sin tratamiento		/	lematice:\\
+love eat cake		/	I love to eat cake		/	love eat cake\\
+love eat cake		/	I love eating cake		/ 	love eating cake\\
+love eat cake		/	I loved eating the cake	/	loved eating cake\\
+love eat cake		/	I do not love eating cake	/ 	love eating cake\\
+n't love eat cake	/	I don't love eating cake	/ 	n't love eating cake\\\\
+Luego se cortan las frases y se realiza un conteo de las palabras contenidas, al ver que palabras son las más recurrentes para los diccionarios formados para el set de entrenamiento y el de prueba:
+Para el set de entrenamiento se tienen: charact, comedi, director, doe, even, feel, film, get, good, ha, hi, like, look, make, movi, much, one, perform, stori, thi, time, way, well, work.\\
+
+Para el set de prueba: charact, comedi, director, doe, even, film, good, ha, hi, like, make, movi, much, one, perform, stori, thi, time, well, work.\\
+
+Luego se realiza análisis de los resultados entregados por cuatro clasificadores distintos, con sus respectivos accuracy:\\
+Clasificador Bayesiano Ingenuo Binario:
+\begin{itemize}
+  \item Stemming: Training accuracy=0.942881; Test accuracy= 0.747819
+  \item Lematización: Training accuracy=0.877603; Test accuracy=0.681677
+\end{itemize}
+\\\\
+Clasificador Bayesiano Multinomial:
+\begin{itemize}
+  \item Stemming: Training accuracy=0.942319; Test accuracy=0.749789
+  \item Lematización: Training accuracy=0.879291; Test accuracy=0.685055
+\end{itemize}
+\\\\
+Regresión Logística Regularizada:
+\begin{itemize}
+  \item Stemming: 
+  \begin{itemize}
+    \item C=0.01: Training accuracy= 0.782217; Test accuracy=0.690684
+    \item C=0.1: Training accuracy=0.880135; Test accuracy=0.731213
+    \item C=10: Training accuracy=0.999719; Test accuracy=0.725303
+    \item C=100: Training accuracy=1; Test accuracy=0.719111
+    \item C=1000: Training accuracy=1; Test accuracy=0.711793
+  \end{itemize}
+  \item Lematización: 
+    \begin{itemize}
+    \item C=0.01: Training accuracy=0.720597; Test accuracy=0.638615
+    \item C=0.1: Training accuracy=0.806978; Test accuracy=0.666479
+    \item C=10: Training accuracy=0.964547; Test accuracy=0.649310
+    \item C=100: Training accuracy=0.984806; Test accuracy=0.623980
+    \item C=1000: Training accuracy=0.989589; Test accuracy=0.614692
+  \end{itemize}
+\end{itemize}
+\\\\
+SVM
+\begin{itemize}
+  \item Stemming: 
+  \begin{itemize}
+    \item C=0.01: Training accuracy=0.873382; Test accuracy=0.729243
+    \item C=0.1: Training accuracy=0.981992; Test accuracy=0.731213
+    \item C=10: Training accuracy=1; Test accuracy=0.701942
+    \item C=100: Training accuracy=1; Test accuracy=0.700535
+    \item C=1000: Training accuracy=1; Test accuracy=0.700535
+  \end{itemize}
+  \item Lematización: 
+    \begin{itemize}
+    \item C=0.01: Training accuracy=0.801913; Test accuracy=0.663946
+    \item C=0.1: Training accuracy=0.907991; Test accuracy=0.666198
+    \item C=10: Training accuracy=0.984524; Test accuracy=0.610751
+    \item C=100: Training accuracy=0.987057; Test accuracy=0.606248
+    \item C=1000: Training accuracy=0.983118; Test accuracy=0.603152
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{Images/figure_pregunta_2.png}
+\caption{Gráfica de accuracy de distintos clasificadores para data de test y de entrenamiento, con data preprocesada con técnica stemming.}
+\label{G1.1}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{Images/figure_pregunta2_2.png}
+\caption{Gráfica de accuracy de distintos clasificadores para data de test y de entrenamiento, con data preprocesada con técnica lematización.}
+\label{G1.1}
+\end{center}
+\end{figure}
+
+Claramente, se aprecia que sin importar el clasificador utilizado, para nuestro dataset, los mejores resultados se obtienen preprocesando la data con la técnica de stemming, además, se tiene que los clasificadores que arrojaron mejores resultados son los Bayesianos, obteniéndose resultados muy similares entre ambos clasificadores (Multinomial y Binario). Adempas cabe destacar que al usar StopWords, se elimanron palabras claves como Not, las cuales cambian completamente el sentido de una opinión. \\
+A continuación, se muestran textos aleatorios de la data de prueba para ambos métodos Bayesianos, y la probabilidad de que sea una opinión negativa o positiva respectivamente:\\
+\begin{itemize}
+  \item Clasificador Bayesiano Ingenuo Binario:
+  \begin{itemize}
+    \item  {[0.98958049  0.01041951]} each scene wreaks of routine ; the film never manages to generate a single threat of suspense .
+    \item {[ 0.9561989  0.0438011]} the sort of movie that gives tastelessness a bad rap .
+    \item {[ 0.81647136  0.18352864]} i don't feel the least bit ashamed in admitting that my enjoyment came at the expense of seeing justice served , even if it's a dish that's best served cold .
+    \item {[ 0.1751346  0.8248654]} the film can depress you about life itself .
+  \end{itemize}
+  \item Clasificador Bayesiano Multinomial:
+  \begin{itemize}
+    \item {[ 0.29397133  0.70602867]} this mistaken-identity picture is so film-culture referential that the final product is a ghost .
+    \item {[ 0.6821908  0.3178092]} . . . standard guns versus martial arts cliche with little new added .
+    \item {[ 0.50196961  0.49803039]} priggish , lethargically paced parable of renewal .
+    \item {[ 0.64955789  0.35044211]} brainy , artistic and muted , almost to the point of suffocation .
+  \end{itemize}
+
+
+\end{itemize}
+
+
+Los resultados son bastante buenos, pero claramente, es difícil determinar cuando una persona utiliza sarcasmo, o la neutralidad de una opinión, por lo que quizás sería bueno probar no solo con positivo y negativo, si no que generar un rango más amplio de opiniones, agregando al menos la clase neutra. 
 
 
 \end{document} 
