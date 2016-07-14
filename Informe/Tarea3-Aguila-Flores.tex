@@ -49,7 +49,7 @@ Para cada conjunto de datos (entrenamiento y test), se deben normalizar los dato
 
 Utilizando PCA (Análisis de Componentes Principales) se genera una representación en dos dimensiones para el dataset inicial (10 dimensiones). La Figura \ref{G1.1}, muestra la clasificación que realiza PCA.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1\textwidth]{Images/figure_1.png}
 \caption{Gráfica que muestra las dos componentes principales de PCA diferenciando con distintos colores las 9 clases.}
@@ -59,7 +59,7 @@ Utilizando PCA (Análisis de Componentes Principales) se genera una representaci
 
 Utilizando LDA (Linear Discriminant Analysis) se genera una representación en dos dimensiones para el dataset inicial (10 dimensiones). La Figura \ref{G1.2}, muestra la clasificación que realiza LDA.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1\textwidth]{Images/figure_2.png}
 \caption{Gráfica que muestra las dos componentes principales de LDA diferenciando con distintos colores las 9 clases.}
@@ -96,7 +96,7 @@ De la Tabla \ref{table:score}, se puede ver que para el conjunto de datos de tra
 
 La Figura \ref{G1.3} que se muestra a continuación, muestra un gráfico en donde se aplica el método KNN variando el valor de k desde 1 a 10, con respecto al score o accuracy. Se puede apreciar que cuando k=7 entonces el método KNN funciona mejor y tiene mejor score.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{Images/figure_3.png}
 \caption{Gráfica que muestra las dos componentes principales de LDA diferenciando con distintos colores las 9 clases.}
@@ -106,7 +106,7 @@ La Figura \ref{G1.3} que se muestra a continuación, muestra un gráfico en dond
 
 Para la última parte, se realizó reducción de domiensionalidad con los métodos PCA y LDA, para cada uno de los cuales se fue variando la cantidad de dimensiones desde 1 hasta la máxima 10, además, para cada iteración se clasificó el modelo con LDA, QDA y KNN (k=7), calculando los errores de clasificación para los datos de entrenamiento y para los de test. Estos errores se graficaron obteniéndose los gráficos de las Figuras \ref{pca} y \ref{lda}.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \subfigure[LDA]{\includegraphics[width=0.6\textwidth]{Images/figure_4.png}}
 \subfigure[QDA]{\includegraphics[width=0.6\textwidth]{Images/figure_5.png}}
@@ -118,7 +118,7 @@ Para la última parte, se realizó reducción de domiensionalidad con los métod
 
 Para la Figura \ref{pca}, se puede ver que la cantidad de dimensiones igual a 7 es óptima ya que reduce el error de clasificación para los datos de test, comportándose de mejor manera el método LDA. Para la Figura \ref{lda}, se observa que con una cantidad de dimensiones igual a 2 se tiene un menor error para los datos de prueba, siendo el más estable LDA no variando mucho su error al aumentar de dimensionalidad.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \subfigure[LDA]{\includegraphics[width=0.6\textwidth]{Images/figure_7.png}}
 \subfigure[QDA]{\includegraphics[width=0.6\textwidth]{Images/figure_8.png}}
