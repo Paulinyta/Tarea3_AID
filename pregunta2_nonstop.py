@@ -14,7 +14,7 @@ from sklearn.svm import LinearSVC
 import random
 
 
-accuracy_dict={}
+
 
 #Pregunta a
 print "Pregunta a**********************************************************************************"
@@ -65,14 +65,12 @@ print train_df.shape
 #Stemmer pregunta b
 print "Pregunta b**********************************************************************************"
 def word_extractor(text):
-	commonwords = stopwords.words('english')
 	text = re.sub(r'([a-z])\1+', r'\1\1',text)#substitute multiple letter by two
 	words = ""
 	wordtokens = [ PorterStemmer().stem(word.lower()) \
 	for word in word_tokenize(text.decode('utf-8', 'ignore')) ]
 	for word in wordtokens:
-		if word not in commonwords:
-			words+=" "+word
+		words+=" "+word
 	return words
 
 
@@ -102,14 +100,12 @@ print "************************************"
 print "Pregunta c**********************************************************************************"
 def word_extractor2(text):
 	wordlemmatizer = WordNetLemmatizer()
-	commonwords = stopwords.words('english')
 	text = re.sub(r'([a-z])\1+', r'\1\1',text)#substitute multiple letter by two
 	words = ""
 	wordtokens = [ wordlemmatizer.lemmatize(word.lower()) \
 	for word in word_tokenize(text.decode('utf-8', 'ignore')) ]
 	for word in wordtokens:
-		if word not in commonwords:
-			words+=" "+word
+		words+=" "+word
 	return words
 print "*********Lematizer**********"
 print word_extractor2("I love to eat cake")
@@ -222,9 +218,6 @@ print "Pregunta e***************************************************************
 def score_the_model(model,x,y,xt,yt,text):
 	acc_tr = model.score(x,y)
 	acc_test = model.score(xt[:-1],yt[:-1])
-	if text!="LOGISTIC" and text!="SVM":
-		accuracy_dict[text+"_test"]=acc_tr
-		accuracy_dict[text+"_test"]=acc_test
 	print "Training Accuracy %s: %f"%(text,acc_tr)
 	print "Test Accuracy %s: %f"%(text,acc_test)
 	print "Detailed Analysis Testing Results ..."
