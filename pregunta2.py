@@ -11,11 +11,14 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
+import matplotlib.pyplot as plt
 import random
 
 
-accuracy_dict={}
-
+accuracy_dict_train={}
+accuracy_dict_test={}
+contador_universal_svm=0
+contador_universal_logistic=0
 #Pregunta a
 print "Pregunta a**********************************************************************************"
 train_data_url = "http://www.inf.utfsm.cl/~jnancu/stanford-subset/polarity.train"
@@ -56,6 +59,7 @@ print positivo_test
 train_df.shape
 test_df.shape
 print train_df.shape
+print test_df.shape
 
 
 
@@ -220,11 +224,23 @@ for tag, count in zip(vocab, dist_test):
 #pregunta e
 print "Pregunta e**********************************************************************************"
 def score_the_model(model,x,y,xt,yt,text):
+	global accuracy_dict_test
+	global accuracy_dict_train
+	global contador_universal_logistic
+	global contador_universal_svm
 	acc_tr = model.score(x,y)
 	acc_test = model.score(xt[:-1],yt[:-1])
 	if text!="LOGISTIC" and text!="SVM":
-		accuracy_dict[text+"_test"]=acc_tr
-		accuracy_dict[text+"_test"]=acc_test
+		accuracy_dict_train[text+"_train"]=acc_tr
+		accuracy_dict_test[text+"_test"]=acc_test
+	if text=="LOGISTIC":
+		contador_universal_logistic+=1
+		accuracy_dict_train[text+"_train_"+str(contador_universal_logistic)]=acc_tr
+		accuracy_dict_test[text+"_test_"+str(contador_universal_logistic)]=acc_test		
+	if text=="SVM":
+		contador_universal_svm+=1
+		accuracy_dict_train[text+"_train_"+str(contador_universal_svm)]=acc_tr
+		accuracy_dict_test[text+"_test_"+str(contador_universal_svm)]=acc_test
 	print "Training Accuracy %s: %f"%(text,acc_tr)
 	print "Test Accuracy %s: %f"%(text,acc_test)
 	print "Detailed Analysis Testing Results ..."
@@ -323,3 +339,34 @@ do_SVM(features_train,labels_train,features_test,labels_test)
 print "---------------------------------------------------------------------"
 print "Lematizer"
 do_SVM(features_train_lem,labels_train,features_test_lem,labels_test)
+
+
+print "__________________________________________________________________________________"
+label_test = []
+label_train =[]
+data_test = []
+data_train = []
+for x in accuracy_dict_test:
+	print "Clasificador | Accuracy_test | Accuracy_train"
+	aux=x.split("_",2)
+	if aux[0]=='LOGISTIC' or aux[0]=='SVM':
+		print "%s |     %f     |     %f"%(x, accuracy_dict_test[x],accuracy_dict_train[aux[0]+"_train_"+aux[2]])
+		label_test.append(x)
+		label_train.append(aux[0]+aux[2])
+		data_train.append(accuracy_dict_train[aux[0]+"_train_"+aux[2]])
+		data_test.append(accuracy_dict_test[x])
+	else:
+		print "%s |     %f     |     %f"%(x, accuracy_dict_test[x],accuracy_dict_train[aux[0]+"_train"])
+		label_test.append(x)
+		label_train.append(aux[0])
+		data_train.append(accuracy_dict_train[aux[0]+"_train"])
+		data_test.append(accuracy_dict_test[x])
+ayuda=[]
+for i in range(1,len(data_test)+1):
+	ayuda.append(i)
+	print i
+plt.plot( ayuda, data_test)
+plt.plot( ayuda, data_train)
+plt.xticks(ayuda, label_train, rotation=90)
+plt.legend(['Train data', 'Test data'], loc='upper left')
+plt.show()
