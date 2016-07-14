@@ -9,6 +9,8 @@ from sklearn.lda import LDA
 from sklearn.qda import QDA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import mean_squared_error 
+from sklearn.metrics import accuracy_score 
+from sklearn.metrics import zero_one_loss
 
 ######## Pregunta (a) ############################################################
 
@@ -188,25 +190,25 @@ for i in range(1,11):
 	sklearn_pca = PCA(n_components=i)
 	Xred_pca = sklearn_pca.fit_transform(X_std)
 	Xred_pca_test = sklearn_pca.fit_transform(X_std_test)
-	
+
 	lda_model.fit(Xred_pca,y)
 	qda_model.fit(Xred_pca,y)
 	knn_model.fit(Xred_pca,y)
 
 	yhat_train = lda_model.predict(Xred_pca)
-	lda_train.append(mean_squared_error(y, yhat_train)) 
+	lda_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = lda_model.predict(Xred_pca_test)
-	lda_test.append(mean_squared_error(ytest, yhat_test)) 
+	lda_test.append(zero_one_loss(ytest, yhat_test)) 
 
 	yhat_train = qda_model.predict(Xred_pca)
-	qda_train.append(mean_squared_error(y, yhat_train)) 
+	qda_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = qda_model.predict(Xred_pca_test)
-	qda_test.append(mean_squared_error(ytest, yhat_test)) 
+	qda_test.append(zero_one_loss(ytest, yhat_test)) 
 
 	yhat_train = knn_model.predict(Xred_pca)
-	knn_train.append(mean_squared_error(y, yhat_train)) 
+	knn_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = knn_model.predict(Xred_pca_test)
-	knn_test.append(mean_squared_error(ytest, yhat_test)) 
+	knn_test.append(zero_one_loss(ytest, yhat_test)) 
 
 plt.figure(figsize=(12, 8))
 plt.plot(lda_train, label="Training set")
@@ -253,19 +255,19 @@ for i in range(1,11):
 	knn_model.fit(Xred_pca,y)
 
 	yhat_train = lda_model.predict(Xred_pca)
-	lda_train.append(mean_squared_error(y, yhat_train)) 
+	lda_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = lda_model.predict(Xred_pca_test)
-	lda_test.append(mean_squared_error(ytest, yhat_test)) 
+	lda_test.append(zero_one_loss(ytest, yhat_test)) 
 
 	yhat_train = qda_model.predict(Xred_pca)
-	qda_train.append(mean_squared_error(y, yhat_train)) 
+	qda_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = qda_model.predict(Xred_pca_test)
-	qda_test.append(mean_squared_error(ytest, yhat_test)) 
+	qda_test.append(zero_one_loss(ytest, yhat_test)) 
 
 	yhat_train = knn_model.predict(Xred_pca)
-	knn_train.append(mean_squared_error(y, yhat_train)) 
+	knn_train.append(zero_one_loss(y, yhat_train)) 
 	yhat_test = knn_model.predict(Xred_pca_test)
-	knn_test.append(mean_squared_error(ytest, yhat_test)) 
+	knn_test.append(zero_one_loss(ytest, yhat_test)) 
 
 plt.figure(figsize=(12, 8))
 plt.plot(lda_train, label="Training set")
