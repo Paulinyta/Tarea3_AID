@@ -183,7 +183,7 @@ knn_test = []
 for i in range(1,11):
 	sklearn_pca = PCA(n_components=i)
 	Xred_pca = sklearn_pca.fit_transform(X_std)
-	Xred_pca_test = sklearn_pca.fit_transform(X_std_test)
+	Xred_pca_test = sklearn_pca.transform(X_std_test)
 
 	lda_model = LDA()
 	lda_model.fit(Xred_pca,y)
@@ -245,7 +245,7 @@ knn_model = KNeighborsClassifier(n_neighbors=7)
 for i in range(1,11):
 	sklearn_lda = LDA(n_components=i)
 	Xred_pca = sklearn_lda.fit_transform(X_std, y)
-	Xred_pca_test = sklearn_lda.fit_transform(X_std_test, ytest)
+	Xred_pca_test = sklearn_lda.transform(X_std_test)
 	lda_model.fit(Xred_pca,y)
 	qda_model.fit(Xred_pca,y)
 	knn_model.fit(Xred_pca,y)

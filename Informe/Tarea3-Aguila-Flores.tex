@@ -67,13 +67,70 @@ Utilizando LDA (Linear Discriminant Analysis) se genera una representación en d
 \end{center}
 \end{figure}
 
-Al analizar las Figuras \ref{G1.1} y \ref{G1.2}, se puede observar que en ambas se redujo la dimensionalidad de 10 a 2 componentes. Sin embargo, con PCA se observa que las clases no están separadas lo suficiente como para diferenciarlas, pero al utilizar LDA, se puede ver que las clases se separan más entre sí. Esto se puede deber a que LDA es un método de clasificación que en este caso se utiliza para reducir dimensionalidad y evitar el \textit{overfitting}.
+Al analizar las Figuras \ref{G1.1} y \ref{G1.2}, se puede observar que en ambas se redujo la dimensionalidad de 10 a 2 componentes. Sin embargo, con PCA se observa que las clases no están separadas lo suficiente como para diferenciarlas, pero al utilizar LDA, se puede ver que las clases se separan más entre sí. Esto se puede deber a que LDA es un método de clasificación que en este caso se utiliza para reducir dimensionalidad y evitar el \textit{overfitting}.\\
+
+Para el caso de querer clasificar un registro $x$ escogido aleatóriamente considerando solo la probabilidad a priori de cada clase, se debe calcular la probabilidad de ocurrencia de cada clase, luego en base a la ecuación (1), se selecciona la clase que tiene mayor probabilidad.
+
+\begin{equation}
+j=\underset{i}{Argmax} (P(y=C_i))
+\end{equation}
+
+En el siguiente ítem, se utilizaron los métodos de clasificación LDA, QDA y KNN, sin realizar reducción de dimensionalidad. A continuación, la Tabla \ref{table:score} muestra un resumen con los valores del accuracy para cada uno de estos modelos tanto con los datos de entrenamiento como con los de test.
+
+\begin{table}[!hbt] 
+\begin{center}
+\begin{tabular}{| l | c | c | c |} 
+\hline
+\textbf{} & \textbf{LDA} & \textbf{QDA} &\textbf{KNN (k=10)} \\ 
+\hline 
+Train set & 0.6837 & \textbf{0.9886} & 0.9318\\ 
+Test set &0.4524 & 0.4156 & \textbf{0.4913}\\
+\hline 
+\end{tabular}
+\caption{Recuadro con el score o accuracy para cada método aplicado a datos de entrenamiento o de prueba.} 
+\label{table:score}
+\end{center} 
+\end{table}
+
+De la Tabla \ref{table:score}, se puede ver que para el conjunto de datos de train el método que mejor se comporta es QDA, mientras que al aplicarlo a los datos de test el método KNN tiene la mejor accuracy.\\
+
+La Figura \ref{G1.3} que se muestra a continuación, muestra un gráfico en donde se aplica el método KNN variando el valor de k desde 1 a 10, con respecto al score o accuracy. Se puede apreciar que cuando k=7 entonces el método KNN funciona mejor y tiene mejor score.\\
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Images/figure_3.png}
+\caption{Gráfica que muestra las dos componentes principales de LDA diferenciando con distintos colores las 9 clases.}
+\label{G1.3}
+\end{center}
+\end{figure}
+
+Para la última parte, se realizó reducción de domiensionalidad con los métodos PCA y LDA, para cada uno de los cuales se fue variando la cantidad de dimensiones desde 1 hasta la máxima 10, además, para cada iteración se clasificó el modelo con LDA, QDA y KNN (k=7), calculando los errores de clasificación para los datos de entrenamiento y para los de test. Estos errores se graficaron obteniéndose los gráficos de las Figuras \ref{pca} y \ref{lda}.\\
+
+\begin{figure}[h]
+\begin{center}
+\subfigure[LDA]{\includegraphics[width=0.6\textwidth]{Images/figure_4.png}}
+\subfigure[QDA]{\includegraphics[width=0.6\textwidth]{Images/figure_5.png}}
+\subfigure[KNN (k=7)]{\includegraphics[width=0.6\textwidth]{Images/figure_6.png}}
+\caption{Gráficas de los errores de clasificación haciendo reducción de dimensionalidad con PCA con d dimensiones.} 
+\label{pca}
+\end{center}
+\end{figure}
+
+Para la Figura \ref{pca}, se puede ver que la cantidad de dimensiones igual a 7 es óptima ya que reduce el error de clasificación para los datos de test, comportándose de mejor manera el método LDA. Para la Figura \ref{lda}, se observa que con una cantidad de dimensiones igual a 2 se tiene un menor error para los datos de prueba, siendo el más estable LDA no variando mucho su error al aumentar de dimensionalidad.\\
+
+\begin{figure}[h]
+\begin{center}
+\subfigure[LDA]{\includegraphics[width=0.6\textwidth]{Images/figure_7.png}}
+\subfigure[QDA]{\includegraphics[width=0.6\textwidth]{Images/figure_8.png}}
+\subfigure[KNN (k=7)]{\includegraphics[width=0.6\textwidth]{Images/figure_9.png}}
+\caption{Gráficas de los errores de clasificación haciendo reducción de dimensionalidad con LDA con d dimensiones.} 
+\label{lda}
+\end{center}
+\end{figure}
 
 \section{Análisis de Opiniones sobre Películas}
 
 PIPE
 
-\bibliographystyle{plain}
-\bibliography{Referencias}
 
 \end{document} 
